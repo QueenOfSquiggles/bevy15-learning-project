@@ -1,0 +1,7 @@
+{
+  "Weapon": {
+    "name": "test weapon item",
+    "damage": 31,
+    "durability": 45
+  }
+}
