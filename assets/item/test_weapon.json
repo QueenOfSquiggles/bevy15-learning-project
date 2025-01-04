@@ -2,6 +2,8 @@
   "Weapon": {
     "name": "test weapon item",
     "damage": 31,
-    "durability": 45
+    "durability": 45,
+    "attack_style": "test_attack",
+    "attack_duration": 0.5
   }
 }

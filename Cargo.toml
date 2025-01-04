@@ -2,11 +2,60 @@
 name = "bevy_15_learning"
 version = "0.1.0"
 edition = "2021"
+authors = ["Queen Of Squiggles"]
+description = "A playground game for me to try out Bevy 0.15.X, may become a Souls-light featuring mechanics and systems from Pathfinder 2e as well as other modern ARPGs"
 
 [dependencies]
-bevy = { version = "0.15.0", features = ["file_watcher"] }
-bevy-inspector-egui = "0.28.0"
-leafwing-input-manager = "0.16.0"
-seldom_state = { version = "0.12.0", features = ["leafwing_input"] }
-serde = "1.0.217"
-serde_json = "1.0.134"
+avian3d = "0.2.0" # physics library
+bevy = { version = "0.15.0", default-features = false, features = [
+    # non-default
+    "file_watcher",
+    # default
+    # "android-game-activity", # removed since not targeting android 
+    # "android-game-activity", # removed since not targeting android
+    # "android_shared_stdcxx", # removed since not targeting android
+    "animation",
+    "bevy_asset",
+    # "bevy_audio", # removed for Kira backend
+    "bevy_color",
+    "bevy_core_pipeline",
+    "bevy_gilrs",
+    "bevy_gizmos",
+    "bevy_gltf",
+    "bevy_mesh_picking_backend",
+    "bevy_pbr",
+    "bevy_picking",
+    "bevy_render",
+    "bevy_scene",
+    # "bevy_sprite", # removed for not needing sprites
+    # "bevy_sprite_picking_backend", # removed for not needing sprites
+    "bevy_state",
+    "bevy_text",
+    "bevy_ui",
+    "bevy_ui_picking_backend",
+    "bevy_window",
+    "bevy_winit",
+    "custom_cursor",
+    "default_font",
+    "hdr",
+    "multi_threaded",
+    "png",
+    "smaa_luts",
+    "sysinfo_plugin",
+    "tonemapping_luts",
+    "vorbis",
+    "webgl2",
+    "x11",
+] }
+
+bevy-inspector-egui = "0.28.0" # debugging
+bevy-tnua = "0.21.0" # character controller
+bevy_hanabi = "0.14.0" # GPU particules
+bevy_kira_audio = "0.21.0" # enhanced audio backend
+bevy_tween = "0.7.0" # robust tweening dispatch (Godot-similar)
+leafwing-input-manager = "0.16.0" # robust input mapping
+seldom_state = { version = "0.12.0", features = [
+    "leafwing_input",
+] } # FSM structure (my remove in the future?)
+serde = "1.0.217" # serialization backend
+serde_json = "1.0.134" # serialization implemented for JSON format

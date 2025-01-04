@@ -30,19 +30,12 @@ fn events_item_added(
     mut cmd: Commands,
 ) {
     for event in events.read() {
-        let (id, event_name) = match event {
-            AssetEvent::Added { id } => (id, "Added"),
-            AssetEvent::Modified { id } => (id, "Modified"),
-            AssetEvent::Removed { id } => (id, "Removed"),
-            AssetEvent::Unused { id } => (id, "Unused"),
-            AssetEvent::LoadedWithDependencies { id } => (id, "Loaded"),
+        let AssetEvent::LoadedWithDependencies { id } = event else {
+            return;
         };
         let Some(item) = items.get(id.clone()) else {
-            continue;
+            return;
         };
-        info!("ItemType AssetEvent [{event_name}]: {item:?}");
-        if let AssetEvent::LoadedWithDependencies { id: _ } = event {
-            cmd.trigger(ToastEvent(format!("Item loaded: {:?}", item.get_name())));
-        }
+        cmd.trigger(ToastEvent(format!("Item loaded: {:?}", item.get_name())));
     }
 }

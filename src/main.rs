@@ -1,6 +1,8 @@
-use bevy::{math::Affine2, prelude::*};
+use avian3d::prelude::{ColliderConstructor, ColliderConstructorHierarchy, RigidBody};
+use bevy::{
+    core_pipeline::experimental::taa::TemporalAntiAliasPlugin, pbr::CascadeShadowConfig, prelude::*,
+};
 use bevy_inspector_egui::quick::WorldInspectorPlugin;
-use ext_asset_server::AssetServerExtensions;
 use game_states::GameStatesPlugin;
 use items::ItemsPlugin;
 use player::PlayerPlugin;
@@ -13,10 +15,12 @@ mod items;
 mod player;
 mod settings;
 mod toast;
+
 fn main() {
     App::new()
         .add_plugins((
             DefaultPlugins,
+            TemporalAntiAliasPlugin,
             PlayerPlugin,
             GameStatesPlugin,
             ItemsPlugin,
@@ -24,34 +28,29 @@ fn main() {
             WorldInspectorPlugin::new(),
             SettingsPlugin,
         ))
-        .add_systems(Startup, create_world)
+        .add_systems(Startup, load_level)
         .add_systems(Update, quit_on_f8)
         .run();
 }
 
-fn create_world(
-    mut cmd: Commands,
-    mut meshes: ResMut<Assets<Mesh>>,
-    mut mats: ResMut<Assets<StandardMaterial>>,
-    assets: Res<AssetServer>,
-) {
+fn load_level(mut cmd: Commands, assets: Res<AssetServer>) {
+    cmd.spawn((
+        Name::new("Level Root"),
+        SceneRoot(assets.load(GltfAssetLabel::Scene(0).from_asset("level/feature_garden.glb"))),
+        RigidBody::Static,
+        ColliderConstructorHierarchy::new(ColliderConstructor::ConvexDecompositionFromMesh),
+    ));
     cmd.spawn((
         DirectionalLight {
             illuminance: 1_000.0,
+            shadows_enabled: true,
             ..default()
         },
-        Transform::default().looking_at(Vec3::new(0.5, -1.0, 0.5), Vec3::Y),
-    ));
-
-    cmd.spawn((
-        Mesh3d(meshes.add(Plane3d::new(Vec3::Y, Vec2::ONE * 32.0))),
-        MeshMaterial3d(mats.add(StandardMaterial {
-            base_color_texture: Some(
-                assets.load_image_custom("kenney_prototyping_textures/Dark/texture_01.png"),
-            ),
-            uv_transform: Affine2::from_scale(Vec2::ONE * 32.0),
+        CascadeShadowConfig {
+            minimum_distance: 15.0,
             ..default()
-        })),
+        },
+        Transform::default().looking_at(Vec3::new(0.5, -1.0, -0.2), Vec3::Y),
     ));
 }
 

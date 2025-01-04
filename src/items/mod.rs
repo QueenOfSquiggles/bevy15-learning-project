@@ -47,6 +47,9 @@ pub trait Item: Asset + Reflect + Clone + PartialEq {
     fn get_name(&self) -> &String;
 }
 
+#[derive(Debug, Reflect, Clone, PartialEq, Default)]
+pub struct ItemSlot(pub Option<Handle<ItemType>>);
+
 #[derive(Debug, Asset, Reflect, Clone, PartialEq, Serialize, Deserialize)]
 pub enum ItemType {
     Basic(BasicItem),
@@ -56,14 +59,16 @@ pub enum ItemType {
 
 #[derive(Debug, Asset, Reflect, Clone, PartialEq, Serialize, Deserialize)]
 pub struct BasicItem {
-    name: String,
+    pub name: String,
 }
 
 #[derive(Debug, Asset, Reflect, Clone, PartialEq, Serialize, Deserialize)]
 pub struct WeaponItem {
-    name: String,
-    damage: u32,
-    durability: u32,
+    pub name: String,
+    pub damage: u32,
+    pub durability: u32,
+    pub attack_style: String,
+    pub attack_duration: f32,
 }
 
 impl Item for ItemType {

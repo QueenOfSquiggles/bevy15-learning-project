@@ -19,6 +19,7 @@ pub enum Inputs {
     Jump,
     Dodge,
     Interact,
+    Attack,
 }
 
 pub fn player_root_bundle() -> InputManagerBundle<Inputs> {
@@ -32,6 +33,7 @@ pub fn player_root_bundle() -> InputManagerBundle<Inputs> {
             )
             .with(Inputs::Dodge, KeyCode::ShiftLeft)
             .with(Inputs::Interact, KeyCode::KeyE)
-            .with(Inputs::Jump, KeyCode::Space),
+            .with(Inputs::Jump, KeyCode::Space)
+            .with(Inputs::Attack, MouseButton::Left),
     )
 }
