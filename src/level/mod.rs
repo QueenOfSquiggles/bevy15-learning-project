@@ -34,7 +34,7 @@ where
     type LevelAssets: AssetCollection;
     const LOAD_STATE: StateType;
     const LEVEL_STATE: StateType;
-    const ENTER_SYSTEM: fn(&mut World);
+    const ADDITIONAL_SETUP: Option<fn(&mut App)>;
 }
 
 /// Registers a proper level architecture for easy loading of associated assets
@@ -50,7 +50,6 @@ where
             .continue_to_state(Level::LEVEL_STATE)
             .load_collection::<Level::LevelAssets>(),
     );
-    app.add_systems(OnEnter(Level::LEVEL_STATE), Level::ENTER_SYSTEM);
     app.add_systems(OnEnter(Level::LOAD_STATE), |mut cmd: Commands| {
         cmd.trigger(EventStartLoadingLevel);
         cmd.spawn((
@@ -62,4 +61,7 @@ where
     app.add_systems(OnEnter(Level::LEVEL_STATE), |mut cmd: Commands| {
         cmd.trigger(EventEndLoadingLevel);
     });
+    if let Some(setup) = Level::ADDITIONAL_SETUP {
+        setup(app);
+    }
 }

@@ -1,14 +1,107 @@
-2025-01-05T15:55:28.599268Z  INFO bevy_diagnostic::system_information_diagnostics_plugin::internal: SystemInfo { os: "Linux 24.2.1 Manjaro Linux", kernel: "6.6.65-1-MANJARO", cpu: "AMD Athlon(tm) X4 880K Quad Core Processor", core_count: "4", memory: "15.6 GiB" }
-2025-01-05T15:55:28.770042Z  INFO bevy_render::renderer: AdapterInfo { name: "NVIDIA GeForce GTX 1070", vendor: 4318, device: 7041, device_type: DiscreteGpu, driver: "NVIDIA", driver_info: "550.135", backend: Vulkan }
-2025-01-05T15:55:29.952367Z  INFO bevy_hanabi::plugin: Initializing Hanabi for GPU adapter NVIDIA GeForce GTX 1070
-2025-01-05T15:55:30.129258Z  INFO bevy_hanabi::render: GPU limits:
+2025-01-05T17:05:22.858434Z  INFO bevy_diagnostic::system_information_diagnostics_plugin::internal: SystemInfo { os: "Linux 24.2.1 Manjaro Linux", kernel: "6.6.65-1-MANJARO", cpu: "AMD Athlon(tm) X4 880K Quad Core Processor", core_count: "4", memory: "15.6 GiB" }
+2025-01-05T17:05:23.023499Z  INFO bevy_render::renderer: AdapterInfo { name: "NVIDIA GeForce GTX 1070", vendor: 4318, device: 7041, device_type: DiscreteGpu, driver: "NVIDIA", driver_info: "550.135", backend: Vulkan }
+2025-01-05T17:05:24.218877Z  INFO bevy_hanabi::plugin: Initializing Hanabi for GPU adapter NVIDIA GeForce GTX 1070
+2025-01-05T17:05:24.386999Z  INFO bevy_hanabi::render: GPU limits:
 - max_compute_invocations_per_workgroup=1536
 - max_compute_workgroup_size_x=1536
 - max_compute_workgroup_size_y=1024
 - max_compute_workgroup_size_z=64
 - max_compute_workgroups_per_dimension=65535
 - min_storage_buffer_offset_alignment=32
-2025-01-05T15:55:30.133018Z  INFO bevy_winit::system: Creating new window "App" (0v1#4294967296)
-2025-01-05T15:55:30.133329Z  INFO winit::platform_impl::linux::x11::window: Guessed window scale factor: 1
-2025-01-05T15:55:32.086187Z  INFO bevy_asset_loader::loading_state::systems: Loading state 'bevy_15_learning::level::LevelState::LoadFeatureGarden' is done
-2025-01-05T15:55:32.105181Z  INFO bevy_15_learning::level::feature_garden: Level asset collection finished loading!
+2025-01-05T17:05:24.390092Z  INFO bevy_winit::system: Creating new window "App" (0v1#4294967296)
+2025-01-05T17:05:24.390359Z  INFO winit::platform_impl::linux::x11::window: Guessed window scale factor: 1
+2025-01-05T17:05:24.480991Z  INFO bevy_15_learning::toast: Toast (26v1):  'Item loaded: "test basic item"'
+2025-01-05T17:05:24.483288Z  INFO bevy_15_learning::toast: Toast (32v1):  'Item loaded: "test weapon item"'
+2025-01-05T17:05:26.034704Z  INFO symphonia_core::probe: found the format marker [4f, 67, 67, 53] @ 0+2 bytes.    
+2025-01-05T17:05:26.035161Z  INFO symphonia_format_ogg::demuxer: starting new physical stream    
+2025-01-05T17:05:26.035222Z  INFO symphonia_format_ogg::demuxer: selected vorbis mapper for stream with serial=0xcba    
+2025-01-05T17:05:26.887609Z  INFO symphonia_core::probe: found the format marker [4f, 67, 67, 53] @ 0+2 bytes.    
+2025-01-05T17:05:26.887873Z  INFO symphonia_format_ogg::demuxer: starting new physical stream    
+2025-01-05T17:05:26.887917Z  INFO symphonia_format_ogg::demuxer: selected vorbis mapper for stream with serial=0x4901    
+2025-01-05T17:05:26.951636Z  INFO bevy_asset_loader::loading_state::systems: Loading state 'bevy_15_learning::level::LevelState::LoadFeatureGarden' is done
+2025-01-05T17:05:28.126095Z  INFO bevy_15_learning::toast: Toast (32v2):  'I'm a toast event!'
+2025-01-05T17:05:28.675338Z  INFO symphonia_core::probe: found the format marker [4f, 67, 67, 53] @ 0+2 bytes.    
+2025-01-05T17:05:28.675591Z  INFO symphonia_format_ogg::demuxer: starting new physical stream    
+2025-01-05T17:05:28.675641Z  INFO symphonia_format_ogg::demuxer: selected vorbis mapper for stream with serial=0x4901    
+2025-01-05T17:05:30.322926Z  INFO bevy_15_learning::toast: Toast (32v3):  'I'm a toast event!'
+2025-01-05T17:05:30.735778Z  INFO bevy_15_learning::toast: Toast (26v2):  'I'm a toast event!'
+2025-01-05T17:05:30.897271Z  INFO symphonia_core::probe: found the format marker [4f, 67, 67, 53] @ 0+2 bytes.    
+2025-01-05T17:05:30.897686Z  INFO symphonia_format_ogg::demuxer: starting new physical stream    
+2025-01-05T17:05:30.897750Z  INFO symphonia_format_ogg::demuxer: selected vorbis mapper for stream with serial=0x4901    
+2025-01-05T17:05:31.201764Z  INFO bevy_15_learning::toast: Toast (50v1):  'I'm a toast event!'
+2025-01-05T17:05:31.202357Z  INFO symphonia_core::probe: found the format marker [4f, 67, 67, 53] @ 0+2 bytes.    
+2025-01-05T17:05:31.202603Z  INFO symphonia_format_ogg::demuxer: starting new physical stream    
+2025-01-05T17:05:31.202656Z  INFO symphonia_format_ogg::demuxer: selected vorbis mapper for stream with serial=0x4901    
+2025-01-05T17:05:31.557384Z  INFO bevy_15_learning::toast: Toast (56v1):  'I'm a toast event!'
+2025-01-05T17:05:31.705533Z  INFO symphonia_core::probe: found the format marker [4f, 67, 67, 53] @ 0+2 bytes.    
+2025-01-05T17:05:31.705808Z  INFO symphonia_format_ogg::demuxer: starting new physical stream    
+2025-01-05T17:05:31.705850Z  INFO symphonia_format_ogg::demuxer: selected vorbis mapper for stream with serial=0x4901    
+2025-01-05T17:05:31.923422Z  INFO bevy_15_learning::toast: Toast (62v1):  'I'm a toast event!'
+2025-01-05T17:05:32.076204Z  INFO symphonia_core::probe: found the format marker [4f, 67, 67, 53] @ 0+2 bytes.    
+2025-01-05T17:05:32.076808Z  INFO symphonia_format_ogg::demuxer: starting new physical stream    
+2025-01-05T17:05:32.076867Z  INFO symphonia_format_ogg::demuxer: selected vorbis mapper for stream with serial=0x4901    
+2025-01-05T17:05:32.392594Z  INFO bevy_15_learning::toast: Toast (32v4):  'I'm a toast event!'
+2025-01-05T17:05:32.442116Z  INFO symphonia_core::probe: found the format marker [4f, 67, 67, 53] @ 0+2 bytes.    
+2025-01-05T17:05:32.442372Z  INFO symphonia_format_ogg::demuxer: starting new physical stream    
+2025-01-05T17:05:32.442425Z  INFO symphonia_format_ogg::demuxer: selected vorbis mapper for stream with serial=0x4901    
+2025-01-05T17:05:32.734467Z  INFO bevy_15_learning::toast: Toast (26v3):  'I'm a toast event!'
+2025-01-05T17:05:32.917964Z  INFO bevy_15_learning::toast: Toast (68v1):  'I'm a toast event!'
+2025-01-05T17:05:32.918198Z  INFO symphonia_core::probe: found the format marker [4f, 67, 67, 53] @ 0+2 bytes.    
+2025-01-05T17:05:32.918397Z  INFO symphonia_format_ogg::demuxer: starting new physical stream    
+2025-01-05T17:05:32.918440Z  INFO symphonia_format_ogg::demuxer: selected vorbis mapper for stream with serial=0x4901    
+2025-01-05T17:05:33.076485Z  INFO bevy_15_learning::toast: Toast (74v1):  'I'm a toast event!'
+2025-01-05T17:05:33.188991Z  INFO bevy_15_learning::toast: Toast (80v1):  'I'm a toast event!'
+2025-01-05T17:05:33.270949Z  INFO symphonia_core::probe: found the format marker [4f, 67, 67, 53] @ 0+2 bytes.    
+2025-01-05T17:05:33.271742Z  INFO symphonia_format_ogg::demuxer: starting new physical stream    
+2025-01-05T17:05:33.271796Z  INFO symphonia_format_ogg::demuxer: selected vorbis mapper for stream with serial=0x4901    
+2025-01-05T17:05:33.353489Z  INFO bevy_15_learning::toast: Toast (50v2):  'I'm a toast event!'
+2025-01-05T17:05:33.441279Z  INFO symphonia_core::probe: found the format marker [4f, 67, 67, 53] @ 0+2 bytes.    
+2025-01-05T17:05:33.442308Z  INFO symphonia_format_ogg::demuxer: starting new physical stream    
+2025-01-05T17:05:33.442393Z  INFO symphonia_format_ogg::demuxer: selected vorbis mapper for stream with serial=0x4901    
+2025-01-05T17:05:33.478843Z  INFO bevy_15_learning::toast: Toast (86v1):  'I'm a toast event!'
+2025-01-05T17:05:33.574057Z  INFO bevy_15_learning::toast: Toast (92v1):  'I'm a toast event!'
+2025-01-05T17:05:33.627309Z  INFO symphonia_core::probe: found the format marker [4f, 67, 67, 53] @ 0+2 bytes.    
+2025-01-05T17:05:33.627598Z  INFO symphonia_format_ogg::demuxer: starting new physical stream    
+2025-01-05T17:05:33.627651Z  INFO symphonia_format_ogg::demuxer: selected vorbis mapper for stream with serial=0x4901    
+2025-01-05T17:05:33.674837Z  INFO bevy_15_learning::toast: Toast (56v2):  'I'm a toast event!'
+2025-01-05T17:05:33.723522Z  INFO symphonia_core::probe: found the format marker [4f, 67, 67, 53] @ 0+2 bytes.    
+2025-01-05T17:05:33.723891Z  INFO symphonia_format_ogg::demuxer: starting new physical stream    
+2025-01-05T17:05:33.723981Z  INFO symphonia_format_ogg::demuxer: selected vorbis mapper for stream with serial=0x4901    
+2025-01-05T17:05:33.772268Z  INFO bevy_15_learning::toast: Toast (98v1):  'I'm a toast event!'
+2025-01-05T17:05:33.870406Z  INFO bevy_15_learning::toast: Toast (104v1):  'I'm a toast event!'
+2025-01-05T17:05:33.910030Z  INFO symphonia_core::probe: found the format marker [4f, 67, 67, 53] @ 0+2 bytes.    
+2025-01-05T17:05:33.910288Z  INFO symphonia_format_ogg::demuxer: starting new physical stream    
+2025-01-05T17:05:33.910338Z  INFO symphonia_format_ogg::demuxer: selected vorbis mapper for stream with serial=0x4901    
+2025-01-05T17:05:33.964499Z  INFO bevy_15_learning::toast: Toast (110v1):  'I'm a toast event!'
+2025-01-05T17:05:34.057031Z  INFO bevy_15_learning::toast: Toast (62v2):  'I'm a toast event!'
+2025-01-05T17:05:34.096496Z  INFO symphonia_core::probe: found the format marker [4f, 67, 67, 53] @ 0+2 bytes.    
+2025-01-05T17:05:34.097006Z  INFO symphonia_format_ogg::demuxer: starting new physical stream    
+2025-01-05T17:05:34.097059Z  INFO symphonia_format_ogg::demuxer: selected vorbis mapper for stream with serial=0x4901    
+2025-01-05T17:05:34.151203Z  INFO bevy_15_learning::toast: Toast (116v1):  'I'm a toast event!'
+2025-01-05T17:05:34.190914Z  INFO symphonia_core::probe: found the format marker [4f, 67, 67, 53] @ 0+2 bytes.    
+2025-01-05T17:05:34.191325Z  INFO symphonia_format_ogg::demuxer: starting new physical stream    
+2025-01-05T17:05:34.192122Z  INFO symphonia_format_ogg::demuxer: selected vorbis mapper for stream with serial=0x4901    
+2025-01-05T17:05:34.259421Z  INFO bevy_15_learning::toast: Toast (122v1):  'I'm a toast event!'
+2025-01-05T17:05:34.306530Z  INFO symphonia_core::probe: found the format marker [4f, 67, 67, 53] @ 0+2 bytes.    
+2025-01-05T17:05:34.306788Z  INFO symphonia_format_ogg::demuxer: starting new physical stream    
+2025-01-05T17:05:34.306828Z  INFO symphonia_format_ogg::demuxer: selected vorbis mapper for stream with serial=0x4901    
+2025-01-05T17:05:34.360198Z  INFO bevy_15_learning::toast: Toast (128v1):  'I'm a toast event!'
+2025-01-05T17:05:34.450027Z  INFO bevy_15_learning::toast: Toast (32v5):  'I'm a toast event!'
+2025-01-05T17:05:34.498215Z  INFO symphonia_core::probe: found the format marker [4f, 67, 67, 53] @ 0+2 bytes.    
+2025-01-05T17:05:34.498477Z  INFO symphonia_format_ogg::demuxer: starting new physical stream    
+2025-01-05T17:05:34.498521Z  INFO symphonia_format_ogg::demuxer: selected vorbis mapper for stream with serial=0x4901    
+2025-01-05T17:05:34.586325Z  INFO symphonia_core::probe: found the format marker [4f, 67, 67, 53] @ 0+2 bytes.    
+2025-01-05T17:05:34.586648Z  INFO symphonia_format_ogg::demuxer: starting new physical stream    
+2025-01-05T17:05:34.586717Z  INFO symphonia_format_ogg::demuxer: selected vorbis mapper for stream with serial=0x4901    
+2025-01-05T17:05:34.669400Z  INFO symphonia_core::probe: found the format marker [4f, 67, 67, 53] @ 0+2 bytes.    
+2025-01-05T17:05:34.669651Z  INFO symphonia_format_ogg::demuxer: starting new physical stream    
+2025-01-05T17:05:34.669690Z  INFO symphonia_format_ogg::demuxer: selected vorbis mapper for stream with serial=0x4901    
+2025-01-05T17:05:34.758321Z  INFO symphonia_core::probe: found the format marker [4f, 67, 67, 53] @ 0+2 bytes.    
+2025-01-05T17:05:34.758582Z  INFO symphonia_format_ogg::demuxer: starting new physical stream    
+2025-01-05T17:05:34.758633Z  INFO symphonia_format_ogg::demuxer: selected vorbis mapper for stream with serial=0x4901    
+2025-01-05T17:05:34.849249Z  INFO symphonia_core::probe: found the format marker [4f, 67, 67, 53] @ 0+2 bytes.    
+2025-01-05T17:05:34.849501Z  INFO symphonia_format_ogg::demuxer: starting new physical stream    
+2025-01-05T17:05:34.849552Z  INFO symphonia_format_ogg::demuxer: selected vorbis mapper for stream with serial=0x4901    
+2025-01-05T17:05:34.971567Z  INFO symphonia_core::probe: found the format marker [4f, 67, 67, 53] @ 0+2 bytes.    
+2025-01-05T17:05:34.971836Z  INFO symphonia_format_ogg::demuxer: starting new physical stream    
+2025-01-05T17:05:34.971890Z  INFO symphonia_format_ogg::demuxer: selected vorbis mapper for stream with serial=0x4901    
