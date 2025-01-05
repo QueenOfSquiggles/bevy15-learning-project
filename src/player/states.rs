@@ -5,24 +5,30 @@ use crate::{
     items::{ItemType, WeaponItem},
 };
 
-use super::{inputs::Inputs, CameraAxisNode, GroundedCheck, PlayerEquipment, PlayerRoot};
-use avian3d::prelude::{LinearVelocity, RigidBody};
+use super::{inputs::Inputs, CameraAxisNode, PlayerEquipment, PlayerRoot};
 use bevy::prelude::*;
+use bevy_tnua::{
+    prelude::{TnuaBuiltinWalk, TnuaController},
+    TnuaUserControlsSystemSet,
+};
 use leafwing_input_manager::prelude::ActionState;
 use seldom_state::prelude::*;
 
+const TO_RADIANS: f32 = 3.14 / 180.0; // 2 * pi / 360_deg = pi / 180_deg
+
 const PLAYER_SPEED: f32 = 10.0;
 const PLAYER_DODGE_SPEED: f32 = 20.0;
+const PLAYER_TURN_SPEED: f32 = 45.0 * TO_RADIANS;
 
 pub struct PlayerStatesPlugin;
 
 impl Plugin for PlayerStatesPlugin {
     fn build(&self, app: &mut App) {
-        app.add_plugins(StateMachinePlugin);
         app.add_systems(
-            Update,
+            FixedUpdate,
             (player_state_move, player_state_dodge, player_state_attack)
-                .run_if(in_state(MouseState::Captured)),
+                .run_if(in_state(MouseState::Captured))
+                .in_set(TnuaUserControlsSystemSet),
         );
     }
 }
@@ -45,9 +51,6 @@ pub struct StateAttack {
 
 #[derive(Event)]
 struct InitAttackDataEvent;
-
-// #[derive(Component, Clone)]
-// pub struct StateCutscene;
 
 pub fn player_root_bundle() -> (StateMoving, StateMachine, Observer) {
     (
@@ -82,18 +85,13 @@ fn build_state_dodge(_: &StateMoving, params: ((), Vec2)) -> Option<StateDodge> 
 
 fn player_state_move(
     mut query: Query<
-        (
-            &mut LinearVelocity,
-            &mut Transform,
-            &GroundedCheck,
-            &ActionState<Inputs>,
-        ),
+        (&mut TnuaController, &mut Transform, &ActionState<Inputs>),
         (With<PlayerRoot>, With<StateMoving>, Without<CameraAxisNode>),
     >,
     mut q_camera: Query<&mut Transform, (With<CameraAxisNode>, Without<PlayerRoot>)>,
     time: Res<Time>,
 ) {
-    let Ok((mut body, mut trans, grounded, input)) = query.get_single_mut() else {
+    let Ok((mut body, mut trans, input)) = query.get_single_mut() else {
         return;
     };
     let Ok(mut cam_trans) = q_camera.get_single_mut() else {
@@ -101,35 +99,39 @@ fn player_state_move(
     };
     let movement = input.axis_pair(&Inputs::Move);
     let look = input.axis_pair(&Inputs::Look);
-    let offset = (trans.forward() * movement.y)
-        + (trans.right() * movement.x).normalize_or_zero() * PLAYER_SPEED;
-    body.0.x += offset.x * time.delta_secs();
-    body.0.z += offset.z * time.delta_secs();
-    if !grounded.0 {
-        body.0.y += -9.8 * time.delta_secs();
-    }
-    body.0.x *= 0.9;
-    body.0.z *= 0.9;
-    trans.rotate_y(look.x * time.delta_secs());
+    let intended_velocity = ((trans.forward() * movement.y) + (trans.right() * movement.x))
+        .normalize_or_zero()
+        * PLAYER_SPEED;
+    body.basis(TnuaBuiltinWalk {
+        desired_velocity: intended_velocity,
+        float_height: 1.5,
+        ..default()
+    });
+
+    trans.rotate_y(look.x * PLAYER_TURN_SPEED * time.delta_secs());
     let (mut x, y, z) = cam_trans.rotation.to_euler(EulerRot::XYZ);
-    x = (x + look.y * time.delta_secs()).clamp(-70.0_f32.to_radians(), 10.0_f32.to_radians());
+    x = (x + (look.y * PLAYER_TURN_SPEED * time.delta_secs()))
+        .clamp(-70.0_f32.to_radians(), 10.0_f32.to_radians());
     cam_trans.rotation = Quat::from_euler(EulerRot::XYZ, x, y, z);
 }
 
 fn player_state_dodge(
     mut cmd: Commands,
-    mut query: Query<(Entity, &mut Transform, &StateDodge), With<PlayerRoot>>,
-    time: Res<Time>,
+    mut query: Query<(Entity, &mut TnuaController, &Transform, &StateDodge), With<PlayerRoot>>,
 ) {
-    let Ok((e, mut trans, dodge)) = query.get_single_mut() else {
+    let Ok((e, mut body, trans, dodge)) = query.get_single_mut() else {
         return;
     };
     if dodge.started.elapsed() > dodge.duration {
         cmd.entity(e).insert(Done::Success);
     } else {
-        let offset = (trans.forward() * dodge.dir.z) + (trans.right() * dodge.dir.x);
-
-        trans.translation += offset.normalize_or_zero() * PLAYER_DODGE_SPEED * time.delta_secs();
+        body.basis(TnuaBuiltinWalk {
+            desired_velocity: ((trans.forward() * dodge.dir.z) + (trans.right() * dodge.dir.x))
+                .normalize_or_zero()
+                * PLAYER_DODGE_SPEED,
+            float_height: 1.5,
+            ..default()
+        });
     }
 }
 
@@ -140,6 +142,7 @@ fn init_state_attack(
     mut cmd: Commands,
 ) {
     let Ok((e, mut attack, equipment)) = q.get_single_mut() else {
+        warn!("Failed to get needed entity/components for handling `InitAttackDataEvent`");
         return;
     };
     let Some(handle) = &equipment.weapon.0 else {

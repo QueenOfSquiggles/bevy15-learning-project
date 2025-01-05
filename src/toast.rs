@@ -1,6 +1,12 @@
-use std::time::{Duration, Instant};
+use std::time::Duration;
 
 use bevy::prelude::*;
+use bevy_kira_audio::{Audio, AudioControl};
+use bevy_tween::{
+    combinator::{event, forward, sequence, tween},
+    prelude::*,
+    tween::AnimationTarget,
+};
 
 use crate::settings::GameSettings;
 
@@ -9,7 +15,7 @@ pub struct ToastPlugin;
 impl Plugin for ToastPlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(Startup, setup_toast);
-        app.add_systems(Update, (update_toasts, test_toasts));
+        app.add_systems(Update, test_toasts);
         app.add_observer(register_new_toasts);
     }
 }
@@ -21,9 +27,7 @@ pub struct ToastEvent(pub String);
 struct ToastRoot;
 
 #[derive(Component)]
-struct ToastItem {
-    timer: Timer,
-}
+struct ToastItem;
 
 fn setup_toast(mut cmd: Commands) {
     cmd.spawn((
@@ -47,52 +51,68 @@ fn register_new_toasts(
     settings: Res<GameSettings>,
 ) {
     let Ok(root) = query.get_single() else { return };
-    cmd.entity(root).with_child((
-        ToastItem {
-            timer: Timer::new(Duration::from_secs_f32(5.0), TimerMode::Once),
-        },
-        Text::new(trigger.event().0.clone()),
-        TextFont {
-            font: assets.load(settings.font.clone()),
-            font_size: 10.0,
-            ..default()
-        },
-        BackgroundColor(Color::linear_rgba(0.2, 0.2, 0.2, 0.4)),
-        BorderColor(Color::linear_rgb(0.0, 0.0, 0.0)),
-        BorderRadius::all(Val::Percent(15.0)),
-    ));
-}
 
-fn update_toasts(
-    q_root: Query<&Children, With<ToastRoot>>,
-    mut q_trans: Query<(Entity, &mut Transform, &mut ToastItem)>,
-    time: Res<Time>,
-    mut cmd: Commands,
-) {
-    let Ok(children) = q_root.get_single() else {
-        return;
-    };
-    for (index, child) in children.iter().enumerate() {
-        let Ok((e, mut trans, mut toast)) = q_trans.get_mut(*child) else {
-            continue;
-        };
-        toast.timer.tick(time.delta());
-        if toast.timer.just_finished() {
-            cmd.entity(e).despawn();
-        }
-        trans.translation = Vec3::lerp(
-            trans.translation.clone(),
-            Vec3::new(16.0, 30.0 * (index as f32), 0.0),
-            0.3 * time.delta_secs(),
+    cmd.entity(root).with_children(|cmd| {
+        let target = AnimationTarget.into_target();
+        let start = Vec3::X * -2000.0;
+        let end = Vec3::ZERO;
+        let mut translate_tween = target.transform_state(Transform::from_translation(start));
+        let mut toast = cmd.spawn((
+            ToastItem,
+            Text::new(trigger.event().0.clone()),
+            TextFont {
+                font: assets.load(settings.font.clone()),
+                font_size: 24.0,
+                ..default()
+            },
+            BackgroundColor(Color::linear_rgba(0.2, 0.2, 0.2, 0.4)),
+            BorderColor(Color::linear_rgb(0.0, 0.0, 0.0)),
+            BorderRadius::all(Val::Percent(15.0)),
+            Node {
+                overflow: Overflow::clip(),
+                ..default()
+            },
+            AnimationTarget,
+        ));
+
+        toast.animation().insert(sequence((
+            tween(
+                Duration::from_secs_f32(1.5),
+                EaseKind::CubicOut,
+                translate_tween.translation_to(end),
+            ),
+            event("pop"),
+            forward(Duration::from_secs_f32(5.0)),
+            tween(
+                Duration::from_secs_f32(1.5),
+                EaseKind::CubicIn,
+                translate_tween.translation_to(start),
+            ),
+            event("end"),
+        )));
+        let toast_entity = toast.id();
+        toast.observe(
+            move |t: Trigger<TweenEvent<&str>>,
+                  mut cmd: Commands,
+                  audio: Res<Audio>,
+                  assets: Res<AssetServer>| match t.data {
+                "pop" => {
+                    info!("Pop event");
+                    audio.play(assets.load("kenney_audio/click_001.ogg"));
+                }
+                "end" => {
+                    info!("End event");
+                    cmd.entity(toast_entity).remove_parent();
+                    cmd.entity(toast_entity).despawn_recursive();
+                }
+                _ => (),
+            },
         );
-    }
+    });
 }
 
 fn test_toasts(keyboard: Res<ButtonInput<KeyCode>>, mut cmd: Commands) {
     if keyboard.just_pressed(KeyCode::Enter) {
-        cmd.trigger(ToastEvent(format!(
-            "I'm a toast event! {:?}",
-            Instant::now()
-        )));
+        cmd.trigger(ToastEvent(format!("I'm a toast event!")));
     }
 }

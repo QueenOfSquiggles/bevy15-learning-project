@@ -26,8 +26,8 @@ pub enum PauseState {
 
 #[derive(Debug, Clone, PartialEq, Eq, Hash, Default, States)]
 pub enum MouseState {
-    #[default]
     Captured,
+    #[default]
     Free,
 }
 

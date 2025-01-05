@@ -1,57 +1,76 @@
-use avian3d::prelude::{ColliderConstructor, ColliderConstructorHierarchy, RigidBody};
+use std::fs::File;
+
+use avian3d::prelude::{PhysicsDebugPlugin, PhysicsPlugins};
 use bevy::{
-    core_pipeline::experimental::taa::TemporalAntiAliasPlugin, pbr::CascadeShadowConfig, prelude::*,
+    input::common_conditions::input_toggle_active,
+    log::{tracing_subscriber::fmt::Layer, BoxedLayer, LogPlugin},
+    prelude::*,
 };
+use bevy_hanabi::HanabiPlugin;
 use bevy_inspector_egui::quick::WorldInspectorPlugin;
+use bevy_kira_audio::AudioPlugin;
+use bevy_tnua::prelude::TnuaControllerPlugin;
+use bevy_tnua_avian3d::TnuaAvian3dPlugin;
+use bevy_tween::DefaultTweenPlugins;
 use game_states::GameStatesPlugin;
 use items::ItemsPlugin;
+use level::LevelPlugin;
 use player::PlayerPlugin;
+use seldom_state::StateMachinePlugin;
 use settings::SettingsPlugin;
 use toast::ToastPlugin;
 
-mod ext_asset_server;
 mod game_states;
 mod items;
+mod level;
 mod player;
 mod settings;
 mod toast;
 
 fn main() {
     App::new()
+        // Note: bevy tuple collections only work up to 20 entries due to rust shenanigans, I just use more nested tuples but there are other options (Making "Macro Plugins" for different plugin groups)
         .add_plugins((
-            DefaultPlugins,
-            TemporalAntiAliasPlugin,
-            PlayerPlugin,
-            GameStatesPlugin,
-            ItemsPlugin,
-            ToastPlugin,
-            WorldInspectorPlugin::new(),
-            SettingsPlugin,
+            // bevy built-in plugins
+            DefaultPlugins.set(LogPlugin {
+                custom_layer: setup_custom_logging_step,
+                ..default()
+            }),
+            (
+                // Third Party plugins
+                WorldInspectorPlugin::new().run_if(input_toggle_active(false, KeyCode::Backspace)),
+                PhysicsPlugins::default().with_length_unit(1.0),
+                PhysicsDebugPlugin::default(),
+                TnuaControllerPlugin::new(FixedUpdate),
+                TnuaAvian3dPlugin::new(FixedUpdate),
+                DefaultTweenPlugins,
+                AudioPlugin,
+                HanabiPlugin,
+                StateMachinePlugin,
+            ),
+            (
+                // my Plugins
+                PlayerPlugin,
+                GameStatesPlugin,
+                ItemsPlugin,
+                ToastPlugin,
+                SettingsPlugin,
+                LevelPlugin,
+            ),
         ))
-        .add_systems(Startup, load_level)
         .add_systems(Update, quit_on_f8)
         .run();
 }
 
-fn load_level(mut cmd: Commands, assets: Res<AssetServer>) {
-    cmd.spawn((
-        Name::new("Level Root"),
-        SceneRoot(assets.load(GltfAssetLabel::Scene(0).from_asset("level/feature_garden.glb"))),
-        RigidBody::Static,
-        ColliderConstructorHierarchy::new(ColliderConstructor::ConvexDecompositionFromMesh),
-    ));
-    cmd.spawn((
-        DirectionalLight {
-            illuminance: 1_000.0,
-            shadows_enabled: true,
-            ..default()
-        },
-        CascadeShadowConfig {
-            minimum_distance: 15.0,
-            ..default()
-        },
-        Transform::default().looking_at(Vec3::new(0.5, -1.0, -0.2), Vec3::Y),
-    ));
+fn setup_custom_logging_step(_: &mut App) -> Option<BoxedLayer> {
+    let Ok(file) = File::create("app.log") else {
+        return None;
+    };
+    let layer = Layer::new()
+        .with_writer(file)
+        .with_level(true)
+        .with_ansi(false);
+    Some(Box::new(layer))
 }
 
 fn quit_on_f8(buttons: Res<ButtonInput<KeyCode>>, mut writer: EventWriter<AppExit>) {

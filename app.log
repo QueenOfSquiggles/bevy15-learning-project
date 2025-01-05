@@ -1,0 +1,14 @@
+2025-01-05T15:55:28.599268Z  INFO bevy_diagnostic::system_information_diagnostics_plugin::internal: SystemInfo { os: "Linux 24.2.1 Manjaro Linux", kernel: "6.6.65-1-MANJARO", cpu: "AMD Athlon(tm) X4 880K Quad Core Processor", core_count: "4", memory: "15.6 GiB" }
+2025-01-05T15:55:28.770042Z  INFO bevy_render::renderer: AdapterInfo { name: "NVIDIA GeForce GTX 1070", vendor: 4318, device: 7041, device_type: DiscreteGpu, driver: "NVIDIA", driver_info: "550.135", backend: Vulkan }
+2025-01-05T15:55:29.952367Z  INFO bevy_hanabi::plugin: Initializing Hanabi for GPU adapter NVIDIA GeForce GTX 1070
+2025-01-05T15:55:30.129258Z  INFO bevy_hanabi::render: GPU limits:
+- max_compute_invocations_per_workgroup=1536
+- max_compute_workgroup_size_x=1536
+- max_compute_workgroup_size_y=1024
+- max_compute_workgroup_size_z=64
+- max_compute_workgroups_per_dimension=65535
+- min_storage_buffer_offset_alignment=32
+2025-01-05T15:55:30.133018Z  INFO bevy_winit::system: Creating new window "App" (0v1#4294967296)
+2025-01-05T15:55:30.133329Z  INFO winit::platform_impl::linux::x11::window: Guessed window scale factor: 1
+2025-01-05T15:55:32.086187Z  INFO bevy_asset_loader::loading_state::systems: Loading state 'bevy_15_learning::level::LevelState::LoadFeatureGarden' is done
+2025-01-05T15:55:32.105181Z  INFO bevy_15_learning::level::feature_garden: Level asset collection finished loading!
