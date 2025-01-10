@@ -5,6 +5,8 @@ use bevy_asset_loader::{
 };
 use feature_garden::LevelFeatureGarden;
 
+use crate::settings::GameSettings;
+
 mod feature_garden;
 
 pub struct LevelPlugin;
@@ -50,14 +52,27 @@ where
             .continue_to_state(Level::LEVEL_STATE)
             .load_collection::<Level::LevelAssets>(),
     );
-    app.add_systems(OnEnter(Level::LOAD_STATE), |mut cmd: Commands| {
-        cmd.trigger(EventStartLoadingLevel);
-        cmd.spawn((
-            // a state scoped label to show we are loading
-            Text::new("Loading, please wait..."),
-            StateScoped(Level::LOAD_STATE),
-        ));
-    });
+    app.add_systems(
+        OnEnter(Level::LOAD_STATE),
+        |mut cmd: Commands, settings: Res<GameSettings>, assets: Res<AssetServer>| {
+            cmd.trigger(EventStartLoadingLevel);
+            cmd.spawn((
+                // a state scoped label to show we are loading
+                Text::new("Loading, please wait..."),
+                TextFont {
+                    font: assets.load(settings.font.regular.clone()),
+                    font_size: 72.0,
+                    ..default()
+                },
+                Node {
+                    align_self: AlignSelf::Start,
+                    justify_self: JustifySelf::Center,
+                    ..default()
+                },
+                StateScoped(Level::LOAD_STATE),
+            ));
+        },
+    );
     app.add_systems(OnEnter(Level::LEVEL_STATE), |mut cmd: Commands| {
         cmd.trigger(EventEndLoadingLevel);
     });

@@ -34,7 +34,7 @@ fn load_level(
         Name::new("Level Root"),
         SceneRoot(scene),
         RigidBody::Static,
-        ColliderConstructorHierarchy::new(ColliderConstructor::ConvexDecompositionFromMesh),
+        ColliderConstructorHierarchy::new(ColliderConstructor::ConvexHullFromMesh),
     ));
     audio
         .play(assets.bgm.clone_weak())

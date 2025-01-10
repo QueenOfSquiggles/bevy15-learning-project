@@ -13,18 +13,24 @@ use bevy_tnua::prelude::TnuaControllerPlugin;
 use bevy_tnua_avian3d::TnuaAvian3dPlugin;
 use bevy_tween::DefaultTweenPlugins;
 use game_states::GameStatesPlugin;
+use health::HealthPlugin;
 use items::ItemsPlugin;
 use level::LevelPlugin;
 use player::PlayerPlugin;
+use post_process::PostProcessPlugin;
 use seldom_state::StateMachinePlugin;
 use settings::SettingsPlugin;
+use stats::RpgStatsPlugin;
 use toast::ToastPlugin;
 
 mod game_states;
+mod health;
 mod items;
 mod level;
 mod player;
+mod post_process;
 mod settings;
+mod stats;
 mod toast;
 
 fn main() {
@@ -56,6 +62,9 @@ fn main() {
                 ToastPlugin,
                 SettingsPlugin,
                 LevelPlugin,
+                RpgStatsPlugin,
+                HealthPlugin,
+                PostProcessPlugin,
             ),
         ))
         .add_systems(Update, quit_on_f8)

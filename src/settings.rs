@@ -17,13 +17,25 @@ impl Plugin for SettingsPlugin {
 
 #[derive(Resource, Clone, Serialize, Deserialize)]
 pub struct GameSettings {
-    pub font: String,
+    pub font: FontTypes,
+}
+#[derive(Clone, Serialize, Deserialize)]
+pub struct FontTypes {
+    pub regular: String,
+    pub bold: String,
+    pub italic: String,
+    pub bold_italic: String,
 }
 
 impl Default for GameSettings {
     fn default() -> Self {
         Self {
-            font: "font/noto_sans/regular.ttf".to_owned(),
+            font: FontTypes {
+                regular: "font/noto_sans/regular.ttf".to_owned(),
+                bold: "font/noto_sans/bold.ttf".to_owned(),
+                italic: "font/noto_sans/italic.ttf".to_owned(),
+                bold_italic: "font/noto_sans/regular.ttf".to_owned(),
+            },
         }
     }
 }
@@ -32,13 +44,16 @@ impl Default for GameSettings {
 pub struct SettingsChanged;
 
 fn load_settings(mut settings: ResMut<GameSettings>, mut cmd: Commands) {
-    let Ok(file) = File::open(SETTINGS_FILE) else {
-        return;
-    };
-    let Ok(new_settings) = serde_json::from_reader(file) else {
-        return;
-    };
-    *settings = new_settings;
+    if let Ok(file) = File::open(SETTINGS_FILE) {
+        if let Ok(new_settings) = serde_json::from_reader(file) {
+            info!("Loaded settings from disk");
+            *settings = new_settings;
+        } else {
+            warn!("Malformed settings on disk, this will be overriden by the default values");
+        }
+    } else {
+        info!("Failed to open settings file, this is usually just fine, unless that file is expected to be on disk");
+    }
     cmd.trigger(SettingsChanged);
 }
 

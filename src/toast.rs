@@ -86,7 +86,7 @@ fn register_new_toasts(
                 ToastItem,
                 Text::new(text.clone()),
                 TextFont {
-                    font: assets.load(settings.font.clone()),
+                    font: assets.load(settings.font.regular.clone()),
                     font_size: 24.0,
                     ..default()
                 },
