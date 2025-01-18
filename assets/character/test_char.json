@@ -1,0 +1,32 @@
+{
+  "core": {
+    "stats": {
+      "Dexterity": 3,
+      "Charisma": -2
+    },
+    "skills": {
+      "Arcana": [
+        "Wisdom",
+        "Trained"
+      ]
+    },
+    "hp": {
+      "current": 15,
+      "max": 20
+    },
+    "ac": 15,
+    "conditions": [
+      "flatfoot"
+    ]
+  },
+  "char_type": {
+    "NpcVersatile": [
+      {
+        "temp": 5
+      },
+      {
+        "temp": 10
+      }
+    ]
+  }
+}

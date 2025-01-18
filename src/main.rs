@@ -18,9 +18,9 @@ use items::ItemsPlugin;
 use level::LevelPlugin;
 use player::PlayerPlugin;
 use post_process::PostProcessPlugin;
+use rpg_data::RpgDataPlugin;
 use seldom_state::StateMachinePlugin;
 use settings::SettingsPlugin;
-use stats::RpgStatsPlugin;
 use toast::ToastPlugin;
 
 mod game_states;
@@ -29,8 +29,8 @@ mod items;
 mod level;
 mod player;
 mod post_process;
+mod rpg_data;
 mod settings;
-mod stats;
 mod toast;
 
 fn main() {
@@ -62,9 +62,9 @@ fn main() {
                 ToastPlugin,
                 SettingsPlugin,
                 LevelPlugin,
-                RpgStatsPlugin,
                 HealthPlugin,
                 PostProcessPlugin,
+                RpgDataPlugin,
             ),
         ))
         .add_systems(Update, quit_on_f8)

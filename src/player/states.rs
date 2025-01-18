@@ -1,3 +1,4 @@
+use core::f32;
 use std::time::{Duration, Instant};
 
 use crate::{
@@ -14,7 +15,7 @@ use bevy_tnua::{
 use leafwing_input_manager::prelude::ActionState;
 use seldom_state::prelude::*;
 
-const TO_RADIANS: f32 = 3.14 / 180.0; // 2 * pi / 360_deg = pi / 180_deg
+const TO_RADIANS: f32 = f32::consts::PI / 180.0; // 2 * pi / 360_deg = pi / 180_deg
 
 const PLAYER_SPEED: f32 = 10.0;
 const PLAYER_DODGE_SPEED: f32 = 20.0;

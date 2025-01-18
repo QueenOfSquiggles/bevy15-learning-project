@@ -26,7 +26,7 @@ use bevy::{
 
 use crate::player::MainCamera;
 
-const POST_PROCESSING_SHADER_PATH: &'static str = "shaders/post_process_test.wgsl";
+const POST_PROCESSING_SHADER_PATH: &str = "shaders/post_process_test.wgsl";
 
 pub struct PostProcessPlugin;
 
@@ -71,7 +71,7 @@ fn attach_to_main_camera(q_cam: Query<Entity, With<MainCamera>>, mut cmd: Comman
 #[derive(Component, Clone, Copy, ExtractComponent, ShaderType, Reflect)]
 struct PostProcessSettings {
     intensity: f32,
-    #[cfg(feature = "webgl2")]
+    #[cfg(all(target_arch = "wasm32", target_os = "unknown"))]
     _webgl2_padding: Vec3,
 }
 
@@ -92,7 +92,7 @@ impl Default for PostProcessSettings {
     fn default() -> Self {
         Self {
             intensity: 0.005,
-            #[cfg(feature = "webgl2")]
+            #[cfg(all(target_arch = "wasm32", target_os = "unknown"))]
             _webgl2_padding: Default::default(),
         }
     }

@@ -3,7 +3,7 @@ use std::fs::File;
 use bevy::prelude::*;
 use serde::{Deserialize, Serialize};
 
-const SETTINGS_FILE: &'static str = "settings.json";
+const SETTINGS_FILE: &str = "settings.json";
 
 pub struct SettingsPlugin;
 

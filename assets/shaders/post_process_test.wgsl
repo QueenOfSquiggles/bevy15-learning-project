@@ -16,9 +16,9 @@ struct PostProcessSettings {
 fn fragment(in: FullscreenVertexOutput) -> @location(0) vec4<f32> {
     let offset = settings.intensity;
     return vec4<f32> (
-        textureSample(screen_texture, texture_sampler, in.uv + vec2<f32>(offset, -offset)   ).r,
-        textureSample(screen_texture, texture_sampler, in.uv + vec2<f32>(-offset, 0.0)      ).g,
-        textureSample(screen_texture, texture_sampler, in.uv + vec2<f32>(0.0, offset)       ).b,
+        textureSample(screen_texture, texture_sampler, in.uv).r, // + vec2<f32>(offset, -offset)   ).r,
+        textureSample(screen_texture, texture_sampler, in.uv).g, // + vec2<f32>(-offset, 0.0)      ).g,
+        textureSample(screen_texture, texture_sampler, in.uv).b, // + vec2<f32>(0.0, offset)       ).b,
         1.0
     );
 }

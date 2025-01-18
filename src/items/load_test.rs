@@ -33,7 +33,7 @@ fn events_item_added(
         let AssetEvent::LoadedWithDependencies { id } = event else {
             return;
         };
-        let Some(item) = items.get(id.clone()) else {
+        let Some(item) = items.get(*id) else {
             return;
         };
         cmd.trigger(ToastEvent(format!("Item loaded: {:?}", item.get_name())));

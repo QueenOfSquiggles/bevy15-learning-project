@@ -151,6 +151,6 @@ fn toast_container_despawn(trigger: Trigger<ToastItemDespawn>, mut cmd: Commands
 
 fn test_toasts(keyboard: Res<ButtonInput<KeyCode>>, mut cmd: Commands) {
     if keyboard.just_pressed(KeyCode::Enter) {
-        cmd.trigger(ToastEvent(format!("I'm a toast event!")));
+        cmd.trigger(ToastEvent("I'm a toast event!".to_string()));
     }
 }

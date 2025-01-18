@@ -24,11 +24,11 @@ impl AssetLoader for ItemAssetLoader {
     type Settings = ();
     type Error = serde_json::Error;
 
-    async fn load<'a>(
+    async fn load(
         &self,
         reader: &mut dyn Reader,
         _settings: &Self::Settings,
-        _load_context: &mut LoadContext<'a>,
+        _load_context: &mut LoadContext<'_>,
     ) -> Result<Self::Asset, Self::Error> {
         let mut buffer = String::new();
         if let Err(e) = reader.read_to_string(&mut buffer).await {
