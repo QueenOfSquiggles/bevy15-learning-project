@@ -1,14 +1,12 @@
 {
   "core": {
-    "stats": {
+    "name": "Test Character",
+    "base_modifiers": {
       "Dexterity": 3,
       "Charisma": -2
     },
-    "skills": {
-      "Arcana": [
-        "Wisdom",
-        "Trained"
-      ]
+    "skill_levels": {
+      "Arcana": "Trained"
     },
     "hp": {
       "current": 15,
@@ -17,7 +15,8 @@
     "ac": 15,
     "conditions": [
       "flatfoot"
-    ]
+    ],
+    "speed": 25
   },
   "char_type": {
     "NpcVersatile": [

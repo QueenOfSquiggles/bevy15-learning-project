@@ -16,8 +16,10 @@ pub mod player;
 pub struct RpgDataPlugin;
 
 impl Plugin for RpgDataPlugin {
-    fn build(&self, _app: &mut App) {
+    fn build(&self, app: &mut App) {
         file_test::test_serialize_character_asset();
+        file_test::test_character_valeros();
+        app.register_asset_loader(CharacterDataAssetLoader);
     }
 }
 
@@ -26,6 +28,7 @@ pub struct CharacterData {
     pub core: CoreData,
     pub char_type: CharacterType,
 }
+
 #[derive(Reflect, Hash, Clone, Serialize, Deserialize)]
 pub enum CharacterType {
     Player(PlayerData),

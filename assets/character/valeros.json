@@ -1,0 +1,36 @@
+{
+  "core": {
+    "name": "Valeros",
+    "base_modifiers": {
+      "Constitution": 2,
+      "Intelligence": 1,
+      "Dexterity": 2,
+      "Strength": 4
+    },
+    "skill_levels": {
+      "Athletics": "Trained",
+      "Lore": "Trained",
+      "Intimidation": "Trained",
+      "Acrobatics": "Trained",
+      "Diplomacy": "Trained",
+      "Survival": "Trained"
+    },
+    "hp": {
+      "current": 25,
+      "max": 25
+    },
+    "ac": 18,
+    "conditions": [],
+    "speed": 25
+  },
+  "char_type": {
+    "NpcVersatile": [
+      {
+        "temp": 5
+      },
+      {
+        "temp": 10
+      }
+    ]
+  }
+}

@@ -4,9 +4,12 @@ use std::time::{Duration, Instant};
 use crate::{
     game_states::MouseState,
     items::{ItemType, WeaponItem},
+    rpg_data::core::SECONDS_PER_ACTION,
 };
 
-use super::{inputs::Inputs, CameraAxisNode, PlayerEquipment, PlayerRoot};
+use super::{
+    inputs::Inputs, CameraAxisNode, PlayerEquipment, PlayerRoot, PLAYER_COLLIDER_FLOAT_HEIGHT,
+};
 use bevy::prelude::*;
 use bevy_tnua::{
     prelude::{TnuaBuiltinWalk, TnuaController},
@@ -17,8 +20,8 @@ use seldom_state::prelude::*;
 
 const TO_RADIANS: f32 = f32::consts::PI / 180.0; // 2 * pi / 360_deg = pi / 180_deg
 
-const PLAYER_SPEED: f32 = 10.0;
-const PLAYER_DODGE_SPEED: f32 = 20.0;
+const PLAYER_SPEED: f32 = 25.0 / SECONDS_PER_ACTION;
+const PLAYER_DODGE_SPEED: f32 = PLAYER_SPEED * 1.5;
 const PLAYER_TURN_SPEED: f32 = 45.0 * TO_RADIANS;
 
 pub struct PlayerStatesPlugin;
@@ -105,7 +108,7 @@ fn player_state_move(
         * PLAYER_SPEED;
     body.basis(TnuaBuiltinWalk {
         desired_velocity: intended_velocity,
-        float_height: 1.5,
+        float_height: PLAYER_COLLIDER_FLOAT_HEIGHT,
         ..default()
     });
 
@@ -130,7 +133,7 @@ fn player_state_dodge(
             desired_velocity: ((trans.forward() * dodge.dir.z) + (trans.right() * dodge.dir.x))
                 .normalize_or_zero()
                 * PLAYER_DODGE_SPEED,
-            float_height: 1.5,
+            float_height: PLAYER_COLLIDER_FLOAT_HEIGHT,
             ..default()
         });
     }

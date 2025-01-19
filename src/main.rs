@@ -2,6 +2,7 @@ use std::fs::File;
 
 use avian3d::prelude::{PhysicsDebugPlugin, PhysicsPlugins};
 use bevy::{
+    core_pipeline::experimental::taa::TemporalAntiAliasPlugin,
     input::common_conditions::input_toggle_active,
     log::{tracing_subscriber::fmt::Layer, BoxedLayer, LogPlugin},
     prelude::*,
@@ -38,10 +39,13 @@ fn main() {
         // Note: bevy tuple collections only work up to 20 entries due to rust shenanigans, I just use more nested tuples but there are other options (Making "Macro Plugins" for different plugin groups)
         .add_plugins((
             // bevy built-in plugins
-            DefaultPlugins.set(LogPlugin {
-                custom_layer: setup_custom_logging_step,
-                ..default()
-            }),
+            (
+                DefaultPlugins.set(LogPlugin {
+                    custom_layer: setup_custom_logging_step,
+                    ..default()
+                }),
+                TemporalAntiAliasPlugin,
+            ),
             (
                 // Third Party plugins
                 WorldInspectorPlugin::new().run_if(input_toggle_active(false, KeyCode::Backspace)),
